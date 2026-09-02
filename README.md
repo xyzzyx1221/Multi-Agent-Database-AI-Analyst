@@ -15,7 +15,7 @@ This project acts as an AI-powered data analyst that can:
 - Maintain conversational context/memory across turns
 - Log every session for auditing and debugging
 - Present results through an interactive **Streamlit** UI
-
+- Guardrails Available To Prevent Modification queries via Human In The Loop
 ---
 
 ## 🏗️ Architecture
@@ -75,35 +75,35 @@ The system is built as a **LangGraph state machine** where each node is an agent
 ```
 multi-agent-db-analyst/
 │
-├── agents/                     # All agent definitions
-│   ├── orchestrator_agent.py   # Routes tasks based on query intent
-│   ├── sql_generator_agent.py  # Converts NL query → SQL
-│   ├── sql_validator_agent.py  # Validates/debugs SQL (iterative loop)
-│   ├── execution_agent.py      # Executes SQL against Neon DB
-│   ├── clarification_agent.py  # Asks follow-up Qs on ambiguous input
-│   ├── visualization_agent.py  # Generates charts/plots from results
-│   └── summarizer_agent.py     # Converts results into NL response
+├── agents/                     
+│   ├── orchestrator_agent.py  
+│   ├── sql_generator_agent.py  
+│   ├── sql_validator_agent.py  
+│   ├── execution_agent.py      
+│   ├── clarification_agent.py  
+│   ├── visualization_agent.py  
+│   └── summarizer_agent.py     
 │
-├── graph/                      # LangGraph workflow definitions
-│   ├── workflow.py             # Defines nodes, edges, conditionals
-│   └── state.py                # Shared graph state schema
+├── graph/                      
+│   ├── workflow.py             
+│   └── state.py               
 │
-├── memory/                     # Context & conversation memory
-│   ├── memory_manager.py       # Read/write memory logic
-│   └── store/                  # Persisted memory (vector/db backed)
+├── memory/                     
+│   ├── memory_manager.py       
+│   └── store/                  
 │
-├── logs/                       # Execution & session logs
-│   └── sessions/               # One log file per session/run
+├── logs/                       
+│   └── sessions/               
 │
-├── data/                       # Database setup & schema
-│   ├── db_config.py            # Neon DB connection config
-│   ├── schema.sql              # Table definitions
-│   └── seed_data.sql           # Sample/seed data (optional)
+├── data/                       
+│   ├── db_config.py            
+│   ├── schema.sql              
+│   └── seed_data.sql           
 │
-├── app.py                      # Streamlit front-end application
-├── requirements.txt            # Python dependencies
-├── .env.example                # Environment variable template
-└── README.md                   # Project documentation
+├── app.py                      
+├── requirements.txt            
+├── .env.example                
+└── README.md                   
 ```
 
 ---
