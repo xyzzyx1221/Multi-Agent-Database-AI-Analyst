@@ -1,0 +1,7 @@
+[
+  {
+    "question": "report of top 5 customers by rdvenue ",
+    "sql": "SELECT c.id, c.name, SUM(o.total_amount) AS total_revenue\nFROM customers c\nJOIN orders o ON o.customer_id = c.id\nWHERE o.order_date >= DATE '2025-01-01' AND o.order_date < DATE '2026-01-01'\nGROUP BY c.id, c.name\nORDER BY total_revenue DESC\nLIMIT 5;",
+    "final_result": "[(1, 'Angela Hayes', Decimal('21338.00')), (3, 'Teresa Mccoy', Decimal('19040.00')), (2, 'Jacob Griffin', Decimal('18865.00')), (23, 'Robert Cain', Decimal('4180.00')), (191, 'Angela Cook', Decimal('3795.00'))]"
+  }
+]

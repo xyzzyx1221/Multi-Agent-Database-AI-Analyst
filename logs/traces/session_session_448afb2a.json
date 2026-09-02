@@ -1,0 +1,7 @@
+[
+  {
+    "question": "their average and total revenue",
+    "sql": "SELECT SUM(total_amount) AS total_revenue\nFROM orders\nWHERE order_date >= DATE '2025-01-01'\n  AND order_date < DATE '2027-01-01';",
+    "final_result": "[(Decimal('762401.00'),)]"
+  }
+]

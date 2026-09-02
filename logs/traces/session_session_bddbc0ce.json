@@ -1,0 +1,7 @@
+[
+  {
+    "question": "top 5 customers ",
+    "sql": "SELECT c.name, c.email, SUM(o.total_amount) AS total_spent\nFROM customers c\nJOIN orders o ON o.customer_id = c.id\nGROUP BY c.id, c.name, c.email\nORDER BY total_spent DESC\nLIMIT 5;",
+    "final_result": "[('Teresa Mccoy', 'lisa29@example.com', Decimal('58607.00')), ('John Doe', 'john.doe@example.com', Decimal('51114.00')), ('Jacob Griffin', 'jamie77@example.net', Decimal('50196.00')), ('Robert Cain', 'tiffany62@example.org', Decimal('7748.00')), ('Michelle White', 'nguyenwayne@example.org', Decimal('7074.00'))]"
+  }
+]

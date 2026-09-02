@@ -1,0 +1,37 @@
+[
+  {
+    "question": "top 5 customers ? ",
+    "sql": "SELECT c.id, c.name, SUM(o.total_amount) AS total_spent\nFROM customers c\nJOIN orders o ON o.customer_id = c.id\nGROUP BY c.id, c.name\nORDER BY total_spent DESC\nLIMIT 5;",
+    "final_result": "[(3, 'Teresa Mccoy', Decimal('58607.00')), (1, 'John Doe', Decimal('51114.00')), (2, 'Jacob Griffin', Decimal('50196.00')), (23, 'Robert Cain', Decimal('7748.00')), (60, 'Michelle White', Decimal('7074.00'))]"
+  },
+  {
+    "question": "What are the email addresses for the top 5 customers?",
+    "sql": "SELECT c.email\nFROM customers c\nJOIN orders o ON o.customer_id = c.id\nGROUP BY c.id, c.email\nORDER BY SUM(o.total_amount) DESC\nLIMIT 5;",
+    "final_result": "[('lisa29@example.com',), ('john.doe@example.com',), ('jamie77@example.net',), ('tiffany62@example.org',), ('nguyenwayne@example.org',)]"
+  },
+  {
+    "question": "What are the regions of the top 5 customers and the top 5 products by revenue?",
+    "sql": "SELECT c.region\nFROM customers c\nJOIN (\n    SELECT customer_id, SUM(total_amount) AS revenue\n    FROM orders\n    GROUP BY customer_id\n    ORDER BY revenue DESC\n    LIMIT 5\n) top_customers ON top_customers.customer_id = c.id;",
+    "final_result": "[('East',), ('South',), ('East',), ('West',), ('North',)]"
+  },
+  {
+    "question": "What are the regions of the top 5 customers and the top 5 products by revenue?",
+    "sql": "SELECT p.id, p.name, SUM(oi.quantity * oi.unit_price) AS total_revenue\nFROM products p\nJOIN order_items oi ON p.id = oi.product_id\nJOIN orders o ON oi.order_id = o.id\nGROUP BY p.id, p.name\nORDER BY total_revenue DESC\nLIMIT 5;",
+    "final_result": "[(31, 'Reactive asymmetric array', Decimal('100655.00')), (41, 'Seamless attitude-oriented initiative', Decimal('96222.00')), (20, 'Face-to-face modular monitoring', Decimal('92734.00')), (40, 'Triple-buffered tertiary benchmark', Decimal('90048.00')), (21, 'Business-focused value-added toolset', Decimal('79365.00'))]"
+  },
+  {
+    "question": "top 5 products least revenue and top 5 products with high reveune ",
+    "sql": "SELECT p.id, p.name, SUM(oi.quantity * oi.unit_price) AS total_revenue\nFROM products p\nJOIN order_items oi ON oi.product_id = p.id\nGROUP BY p.id, p.name\nORDER BY total_revenue ASC\nLIMIT 5;",
+    "final_result": "[(43, 'Stand-alone methodical throughput', Decimal('3674.00')), (25, 'Versatile analyzing framework', Decimal('5184.00')), (4, 'Self-enabling uniform forecast', Decimal('6346.00')), (37, 'Centralized mobile intranet', Decimal('7700.00')), (14, 'Integrated empowering system engine', Decimal('9699.00'))]"
+  },
+  {
+    "question": "top 5 products least revenue and top 5 products with high reveune ",
+    "sql": "SELECT\n    p.id,\n    p.name,\n    SUM(oi.quantity * oi.unit_price) AS total_revenue\nFROM products p\nJOIN order_items oi ON oi.product_id = p.id\nGROUP BY p.id, p.name\nORDER BY total_revenue DESC\nLIMIT 5;",
+    "final_result": "[(31, 'Reactive asymmetric array', Decimal('100655.00')), (41, 'Seamless attitude-oriented initiative', Decimal('96222.00')), (20, 'Face-to-face modular monitoring', Decimal('92734.00')), (40, 'Triple-buffered tertiary benchmark', Decimal('90048.00')), (21, 'Business-focused value-added toolset', Decimal('79365.00'))]"
+  },
+  {
+    "question": "give me the product list that is sold on 1st week of jan 2025 top 5 by revenue ",
+    "sql": "SELECT p.id AS product_id, p.name, SUM(oi.quantity * oi.unit_price) AS revenue\nFROM order_items oi\nJOIN orders o ON oi.order_id = o.id\nJOIN products p ON oi.product_id = p.id\nWHERE o.order_date >= DATE '2025-01-01'\n  AND o.order_date < DATE '2025-01-08'\nGROUP BY p.id, p.name\nORDER BY revenue DESC\nLIMIT 5;",
+    "final_result": "[]"
+  }
+]

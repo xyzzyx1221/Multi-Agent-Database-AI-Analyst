@@ -1,0 +1,17 @@
+[
+  {
+    "question": "tell the revenue by north region peoples",
+    "sql": "SELECT SUM(o.total_amount) AS total_revenue\nFROM orders o\nJOIN customers c ON o.customer_id = c.id\nWHERE c.region = 'North';",
+    "final_result": "[(Decimal('137064.00'),)]"
+  },
+  {
+    "question": "give top 5 customers by revenue ? ",
+    "sql": "SELECT c.id, c.name, SUM(o.total_amount) AS total_revenue\nFROM customers c\nJOIN orders o ON o.customer_id = c.id\nGROUP BY c.id, c.name\nORDER BY total_revenue DESC\nLIMIT 5;",
+    "final_result": "[(3, 'Teresa Mccoy', Decimal('58607.00')), (1, 'Angela Hayes', Decimal('51114.00')), (2, 'Jacob Griffin', Decimal('50196.00')), (23, 'Robert Cain', Decimal('7748.00')), (60, 'Michelle White', Decimal('7074.00'))]"
+  },
+  {
+    "question": "tell the top 5 customers and then tell the top 5 regions by revenue and then tell the top 5 products that are most returnabe ",
+    "sql": "SELECT\n    c.id AS customer_id,\n    c.name,\n    SUM(o.total_amount) AS total_revenue\nFROM orders o\nJOIN customers c ON o.customer_id = c.id\nWHERE o.order_date >= DATE '2025-01-01'\n  AND o.order_date < DATE '2026-01-01'\nGROUP BY c.id, c.name\nORDER BY total_revenue DESC\nLIMIT 5;",
+    "final_result": "[(1, 'Angela Hayes', Decimal('21338.00')), (3, 'Teresa Mccoy', Decimal('19040.00')), (2, 'Jacob Griffin', Decimal('18865.00')), (23, 'Robert Cain', Decimal('4180.00')), (191, 'Angela Cook', Decimal('3795.00'))]"
+  }
+]

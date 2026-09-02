@@ -1,0 +1,32 @@
+[
+  {
+    "question": "top 5 customers by order frequency ",
+    "sql": "SELECT\n    c.id,\n    c.name,\n    c.email,\n    COUNT(o.id) AS order_count\nFROM\n    customers c\nJOIN\n    orders o ON o.customer_id = c.id\nGROUP BY\n    c.id, c.name, c.email\nORDER BY\n    order_count DESC\nLIMIT 5;",
+    "final_result": "[(3, 'Teresa Mccoy', 'lisa29@example.com', 114), (1, 'Angela Hayes', 'uthompson@example.org', 102), (2, 'Jacob Griffin', 'jamie77@example.net', 96), (23, 'Robert Cain', 'tiffany62@example.org', 14), (155, 'Mark Delgado', 'debbie48@example.net', 13)]"
+  },
+  {
+    "question": "Insert a new customer into the customers table with ID\u202f1 (the same ID as the customer previously shown with ID\u202f1), providing appropriate values for the other fields.",
+    "sql": "INSERT INTO customers (id, name, email, region, signup_date, tier)\nVALUES (1, 'John Doe', 'john.doe@example.com', 'North', DATE '2025-01-15', 'Gold')\nON CONFLICT (id) DO UPDATE\nSET name = EXCLUDED.name,\n    email = EXCLUDED.email,\n    region = EXCLUDED.region,\n    signup_date = EXCLUDED.signup_date,\n    tier = EXCLUDED.tier;",
+    "final_result": "Action completed successfully."
+  },
+  {
+    "question": "tell the details of customer 1 ",
+    "sql": "SELECT * FROM customers WHERE id = 1;",
+    "final_result": "[(1, 'John Doe', 'john.doe@example.com', 'North', datetime.date(2025, 1, 15), 'Gold')]"
+  },
+  {
+    "question": "What is the name of the customer with ID 1?",
+    "sql": "SELECT name FROM customers WHERE id = 1;",
+    "final_result": "[('John Doe',)]"
+  },
+  {
+    "question": "insert a customer with name aditya ",
+    "sql": "INSERT INTO customers (name) VALUES ('aditya');",
+    "final_result": "Action completed successfully."
+  },
+  {
+    "question": "What are the details of the customer named aditya in the database?",
+    "sql": "SELECT * FROM customers WHERE name = 'aditya';",
+    "final_result": "[(202, 'aditya', None, None, None, None)]"
+  }
+]

@@ -1,0 +1,32 @@
+[
+  {
+    "question": "Give me a detailed monthly report for January 2025 covering total sales and top products.",
+    "sql": "SELECT COALESCE(SUM(total_amount), 0) AS total_sales_january_2025\nFROM orders\nWHERE order_date >= DATE '2025-01-01'\n  AND order_date < DATE '2025-02-01';",
+    "final_result": "[(Decimal('0'),)]"
+  },
+  {
+    "question": "Give me a detailed monthly report for January 2025 covering total sales and top products.",
+    "sql": "SELECT p.id, p.name, SUM(oi.quantity * oi.unit_price) AS sales_amount\nFROM order_items oi\nJOIN orders o ON oi.order_id = o.id\nJOIN products p ON oi.product_id = p.id\nWHERE o.order_date >= DATE '2025-01-01' AND o.order_date < DATE '2025-02-01'\nGROUP BY p.id, p.name\nORDER BY sales_amount DESC\nLIMIT 10;",
+    "final_result": "[]"
+  },
+  {
+    "question": "Give me a detailed monthly report for January 2025 covering total sales and top products.",
+    "sql": "SELECT SUM(total_amount) AS total_sales_january_2025\nFROM orders\nWHERE order_date >= DATE '2025-01-01'\n  AND order_date < DATE '2025-02-01';",
+    "final_result": "[(None,)]"
+  },
+  {
+    "question": "Give me a detailed monthly report for January 2025 covering total sales and top products.",
+    "sql": "SELECT p.id,\n       p.name,\n       SUM(oi.quantity) AS total_quantity,\n       SUM(oi.quantity * oi.unit_price) AS total_sales\nFROM   order_items oi\nJOIN   orders o ON oi.order_id = o.id\nJOIN   products p ON oi.product_id = p.id\nWHERE  o.order_date >= DATE '2025-01-01'\n  AND  o.order_date <  DATE '2025-02-01'\nGROUP  BY p.id, p.name\nORDER  BY total_quantity DESC;",
+    "final_result": "[]"
+  },
+  {
+    "question": "Give me a detailed monthly report for January 2025 covering total sales and top products.",
+    "sql": "SELECT SUM(total_amount) AS total_sales\nFROM orders\nWHERE order_date >= DATE '2025-01-01'\n  AND order_date < DATE '2025-02-01';",
+    "final_result": "[(None,)]"
+  },
+  {
+    "question": "Give me a detailed monthly report for January 2025 covering total sales and top products.",
+    "sql": "SELECT\n    p.id,\n    p.name,\n    p.category,\n    SUM(oi.quantity) AS total_quantity_sold,\n    SUM(oi.quantity * oi.unit_price) AS total_sales_amount\nFROM\n    order_items oi\nJOIN\n    orders o ON oi.order_id = o.id\nJOIN\n    products p ON oi.product_id = p.id\nWHERE\n    o.order_date >= DATE '2025-01-01'\n    AND o.order_date < DATE '2025-02-01'\nGROUP BY\n    p.id,\n    p.name,\n    p.category\nORDER BY\n    total_quantity_sold DESC;",
+    "final_result": "[]"
+  }
+]

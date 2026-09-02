@@ -1,0 +1,32 @@
+[
+  {
+    "question": "give top 1 marketing channel by expenditure and then top 1 customer name for least revenue and then top 1 product with most orders",
+    "sql": "SELECT channel, SUM(amount_spent) AS total_expenditure\nFROM marketing_spend\nGROUP BY channel\nORDER BY total_expenditure DESC\nLIMIT 1;",
+    "final_result": "[('social', Decimal('35290.00'))]"
+  },
+  {
+    "question": "give top 1 marketing channel by expenditure and then top 1 customer name for least revenue and then top 1 product with most orders",
+    "sql": "SELECT c.name\nFROM customers c\nJOIN orders o ON o.customer_id = c.id\nGROUP BY c.name\nORDER BY SUM(o.total_amount) ASC\nLIMIT 1;",
+    "final_result": "[('Jonathan Crosby',)]"
+  },
+  {
+    "question": "give top 1 marketing channel by expenditure and then top 1 customer name for least revenue and then top 1 product with most orders",
+    "sql": "SELECT p.id, p.name, COUNT(DISTINCT oi.order_id) AS order_count\nFROM products p\nJOIN order_items oi ON oi.product_id = p.id\nGROUP BY p.id, p.name\nORDER BY order_count DESC\nLIMIT 1;",
+    "final_result": "[(37, 'Centralized mobile intranet', 110)]"
+  },
+  {
+    "question": "give top 1 marketing channel by expenditure and then top 1 customer name for least revenue and then top 1 product with most orders",
+    "sql": "SELECT channel\nFROM marketing_spend\nWHERE month BETWEEN DATE '2025-01-01' AND DATE '2026-12-31'\nGROUP BY channel\nORDER BY SUM(amount_spent) DESC\nLIMIT 1;",
+    "final_result": "[('social',)]"
+  },
+  {
+    "question": "give top 1 marketing channel by expenditure and then top 1 customer name for least revenue and then top 1 product with most orders",
+    "sql": "SELECT c.name\nFROM customers c\nJOIN orders o ON o.customer_id = c.id\nWHERE o.order_date BETWEEN '2025-01-01' AND '2026-12-31'\nGROUP BY c.id, c.name\nORDER BY SUM(o.total_amount) ASC\nLIMIT 1;",
+    "final_result": "[('Jonathan Crosby',)]"
+  },
+  {
+    "question": "give top 1 marketing channel by expenditure and then top 1 customer name for least revenue and then top 1 product with most orders",
+    "sql": "SELECT p.name\nFROM order_items oi\nJOIN orders o ON oi.order_id = o.id\nJOIN products p ON oi.product_id = p.id\nWHERE o.order_date BETWEEN DATE '2025-01-01' AND DATE '2026-12-31'\nGROUP BY p.name\nORDER BY COUNT(*) DESC\nLIMIT 1;",
+    "final_result": "[('Centralized mobile intranet',)]"
+  }
+]

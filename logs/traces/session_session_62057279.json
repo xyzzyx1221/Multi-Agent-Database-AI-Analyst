@@ -1,0 +1,22 @@
+[
+  {
+    "question": "give top 1 marketing channel by expenditure and then top 1 customer name for least revenue and then top 1 product with most orders",
+    "sql": "SELECT channel, SUM(amount_spent) AS total_spent\nFROM marketing_spend\nGROUP BY channel\nORDER BY total_spent DESC\nLIMIT 1;",
+    "final_result": "[('social', Decimal('35290.00'))]"
+  },
+  {
+    "question": "give top 1 marketing channel by expenditure and then top 1 customer name for least revenue and then top 1 product with most orders",
+    "sql": "SELECT c.name\nFROM customers c\nLEFT JOIN orders o ON o.customer_id = c.id\nGROUP BY c.id, c.name\nORDER BY COALESCE(SUM(o.total_amount), 0) ASC\nLIMIT 1;",
+    "final_result": "[('aayush',)]"
+  },
+  {
+    "question": "give top 1 marketing channel by expenditure and then top 1 customer name for least revenue and then top 1 product with most orders",
+    "sql": "SELECT p.name\nFROM products p\nJOIN order_items oi ON p.id = oi.product_id\nGROUP BY p.name\nORDER BY COUNT(DISTINCT oi.order_id) DESC\nLIMIT 1;",
+    "final_result": "[('Centralized mobile intranet',)]"
+  },
+  {
+    "question": "give top 1 marketing channel by expenditure",
+    "sql": "SELECT ms.channel\nFROM marketing_spend ms\nWHERE EXTRACT(YEAR FROM ms.month) IN (2025, 2026)\nGROUP BY ms.channel\nORDER BY SUM(ms.amount_spent) DESC\nLIMIT 1;",
+    "final_result": "[('social',)]"
+  }
+]

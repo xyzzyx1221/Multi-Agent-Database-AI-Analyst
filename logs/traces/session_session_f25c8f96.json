@@ -1,0 +1,47 @@
+[
+  {
+    "question": "top 5 custmers by revenue ",
+    "sql": "SELECT c.id, c.name, SUM(o.total_amount) AS total_revenue\nFROM customers c\nJOIN orders o ON o.customer_id = c.id\nGROUP BY c.id, c.name\nORDER BY total_revenue DESC\nLIMIT 5;",
+    "final_result": "[(3, 'Teresa Mccoy', Decimal('58607.00')), (1, 'John Doe', Decimal('51114.00')), (2, 'Jacob Griffin', Decimal('50196.00')), (23, 'Robert Cain', Decimal('7748.00')), (60, 'Michelle White', Decimal('7074.00'))]"
+  },
+  {
+    "question": "What are the email addresses for the customers with IDs 3,\u202f1,\u202f2,\u202f23, and\u202f60 (Teresa Mccoy, John Doe, Jacob Griffin, Robert Cain, and Michelle White) respectively?",
+    "sql": "SELECT email\nFROM customers\nWHERE id IN (3, 1, 2, 23, 60);",
+    "final_result": "[('jamie77@example.net',), ('lisa29@example.com',), ('tiffany62@example.org',), ('nguyenwayne@example.org',), ('john.doe@example.com',)]"
+  },
+  {
+    "question": "What are the regions for customers with IDs 3, 1, 2, 23, and 60?",
+    "sql": "SELECT region FROM customers WHERE id IN (3, 1, 2, 23, 60);",
+    "final_result": "[('East',), ('South',), ('East',), ('West',), ('North',)]"
+  },
+  {
+    "question": "give top 5 channels based on expenditure on marketting ",
+    "sql": "SELECT channel, SUM(amount_spent) AS total_spent\nFROM marketing_spend\nGROUP BY channel\nORDER BY total_spent DESC\nLIMIT 5;",
+    "final_result": "[('social', Decimal('35290.00')), ('search', Decimal('33467.00')), ('affiliate', Decimal('32985.00')), ('email', Decimal('31649.00'))]"
+  },
+  {
+    "question": "top 5 customers by least order revenue, top 5 product with least revune, top 5 regions by least average order value, top channels by least marketing",
+    "sql": "SELECT c.id, c.name, COALESCE(SUM(o.total_amount), 0) AS total_revenue\nFROM customers c\nLEFT JOIN orders o ON o.customer_id = c.id\nGROUP BY c.id, c.name\nORDER BY total_revenue ASC\nLIMIT 5;",
+    "final_result": "[(201, 'Ranveer Raj', Decimal('0')), (202, 'aditya', Decimal('0')), (203, 'aayush', Decimal('0')), (42, 'Jonathan Crosby', Decimal('94.00')), (127, 'Mr. Christopher Horton', Decimal('261.00'))]"
+  },
+  {
+    "question": "top 5 customers by least order revenue, top 5 product with least revune, top 5 regions by least average order value, top channels by least marketing",
+    "sql": "SELECT p.id,\n       p.name,\n       COALESCE(SUM(oi.quantity * oi.unit_price), 0) AS revenue\nFROM products p\nLEFT JOIN order_items oi ON oi.product_id = p.id\nGROUP BY p.id, p.name\nORDER BY revenue ASC\nLIMIT 5;",
+    "final_result": "[(43, 'Stand-alone methodical throughput', Decimal('3674.00')), (25, 'Versatile analyzing framework', Decimal('5184.00')), (4, 'Self-enabling uniform forecast', Decimal('6346.00')), (37, 'Centralized mobile intranet', Decimal('7700.00')), (14, 'Integrated empowering system engine', Decimal('9699.00'))]"
+  },
+  {
+    "question": "top 5 customers by least order revenue, top 5 product with least revune, top 5 regions by least average order value, top channels by least marketing",
+    "sql": "SELECT c.region, AVG(o.total_amount) AS avg_order_value\nFROM orders o\nJOIN customers c ON o.customer_id = c.id\nGROUP BY c.region\nORDER BY avg_order_value ASC\nLIMIT 5;",
+    "final_result": "[('North', Decimal('495.2052631578947368')), ('South', Decimal('509.5906593406593407')), ('East', Decimal('511.3730684326710817')), ('West', Decimal('518.4158415841584158'))]"
+  },
+  {
+    "question": "top 5 customers by least order revenue, top 5 product with least revune, top 5 regions by least average order value, top channels by least marketing",
+    "sql": "SELECT channel, SUM(amount_spent) AS total_spend\nFROM marketing_spend\nGROUP BY channel\nORDER BY total_spend ASC\nLIMIT 5;",
+    "final_result": "[('email', Decimal('31649.00')), ('affiliate', Decimal('32985.00')), ('search', Decimal('33467.00')), ('social', Decimal('35290.00'))]"
+  },
+  {
+    "question": "What are the names of the top\u202f5 customers with the lowest order revenue?",
+    "sql": "SELECT c.name\nFROM customers c\nLEFT JOIN orders o ON o.customer_id = c.id\nGROUP BY c.id, c.name\nORDER BY COALESCE(SUM(o.total_amount), 0) ASC\nLIMIT 5;",
+    "final_result": "[('Ranveer Raj',), ('aditya',), ('aayush',), ('Jonathan Crosby',), ('Mr. Christopher Horton',)]"
+  }
+]

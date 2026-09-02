@@ -1,0 +1,17 @@
+[
+  {
+    "question": "top 5 customers ",
+    "sql": "SELECT c.id, c.name, SUM(o.total_amount) AS total_spent\nFROM customers c\nJOIN orders o ON o.customer_id = c.id\nGROUP BY c.id, c.name\nORDER BY total_spent DESC\nLIMIT 5;",
+    "final_result": "[(3, 'Teresa Mccoy', Decimal('58607.00')), (1, 'John Doe', Decimal('51114.00')), (2, 'Jacob Griffin', Decimal('50196.00')), (23, 'Robert Cain', Decimal('7748.00')), (60, 'Michelle White', Decimal('7074.00'))]"
+  },
+  {
+    "question": "add customer with name as aman sharma in the customer table ",
+    "sql": "INSERT INTO customers (name) VALUES ('Aman Sharma');",
+    "final_result": "Action completed successfully."
+  },
+  {
+    "question": "Delete the record for the customer named 'Aman Sharma' from the customers table.",
+    "sql": "DELETE FROM customers WHERE name = 'Aman Sharma';",
+    "final_result": "Action completed successfully."
+  }
+]

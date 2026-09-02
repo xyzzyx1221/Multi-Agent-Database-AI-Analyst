@@ -1,0 +1,62 @@
+[
+  {
+    "question": "report of top 5 customers by revenue ",
+    "sql": "SELECT c.id, c.name, SUM(o.total_amount) AS revenue\nFROM customers c\nJOIN orders o ON o.customer_id = c.id\nWHERE o.order_date >= DATE '2025-01-01' AND o.order_date < DATE '2026-01-01'\nGROUP BY c.id, c.name\nORDER BY revenue DESC\nLIMIT 5;",
+    "final_result": "[(1, 'Angela Hayes', Decimal('21338.00')), (3, 'Teresa Mccoy', Decimal('19040.00')), (2, 'Jacob Griffin', Decimal('18865.00')), (23, 'Robert Cain', Decimal('4180.00')), (191, 'Angela Cook', Decimal('3795.00'))]"
+  },
+  {
+    "question": "top 3 customers by revenue ",
+    "sql": "SELECT c.id, c.name, SUM(o.total_amount) AS total_revenue\nFROM customers c\nJOIN orders o ON o.customer_id = c.id\nWHERE o.order_date >= DATE '2025-01-01' AND o.order_date < DATE '2026-01-01'\nGROUP BY c.id, c.name\nORDER BY total_revenue DESC\nLIMIT 3;",
+    "final_result": "[(1, 'Angela Hayes', Decimal('21338.00')), (3, 'Teresa Mccoy', Decimal('19040.00')), (2, 'Jacob Griffin', Decimal('18865.00'))]"
+  },
+  {
+    "question": "Provide ten solid analytical insights derived from the 2025 orders data (e.g., revenue distribution, customer segmentation, trends, product performance, seasonal patterns, etc.).",
+    "sql": "SELECT p.category, SUM(oi.quantity * oi.unit_price) AS total_revenue\nFROM orders o\nJOIN order_items oi ON oi.order_id = o.id\nJOIN products p ON p.id = oi.product_id\nWHERE o.order_date >= DATE '2025-01-01' AND o.order_date < DATE '2026-01-01'\nGROUP BY p.category\nORDER BY total_revenue DESC;",
+    "final_result": "[('Clothing', Decimal('189211.00')), ('Home', Decimal('146427.00')), ('Electronics', Decimal('144256.00')), ('Books', Decimal('119442.00')), ('Beauty', Decimal('86126.00'))]"
+  },
+  {
+    "question": "Provide ten solid analytical insights derived from the 2025 orders data (e.g., revenue distribution, customer segmentation, trends, product performance, seasonal patterns, etc.).",
+    "sql": "SELECT DATE_TRUNC('month', order_date)::date AS month, SUM(total_amount) AS total_sales\nFROM orders\nWHERE order_date >= '2025-01-01' AND order_date < '2026-01-01'\nGROUP BY DATE_TRUNC('month', order_date)\nORDER BY month;",
+    "final_result": "[(datetime.date(2025, 8, 1), Decimal('2340.00')), (datetime.date(2025, 9, 1), Decimal('62786.00')), (datetime.date(2025, 10, 1), Decimal('63578.00')), (datetime.date(2025, 11, 1), Decimal('61979.00')), (datetime.date(2025, 12, 1), Decimal('61944.00'))]"
+  },
+  {
+    "question": "Provide ten solid analytical insights derived from the 2025 orders data (e.g., revenue distribution, customer segmentation, trends, product performance, seasonal patterns, etc.).",
+    "sql": "SELECT c.id, c.name, c.email, SUM(o.total_amount) AS total_spend\nFROM customers c\nJOIN orders o ON o.customer_id = c.id\nWHERE o.order_date >= '2025-01-01' AND o.order_date < '2026-01-01'\nGROUP BY c.id, c.name, c.email\nORDER BY total_spend DESC\nLIMIT 10;",
+    "final_result": "[(1, 'Angela Hayes', 'uthompson@example.org', Decimal('21338.00')), (3, 'Teresa Mccoy', 'lisa29@example.com', Decimal('19040.00')), (2, 'Jacob Griffin', 'jamie77@example.net', Decimal('18865.00')), (23, 'Robert Cain', 'tiffany62@example.org', Decimal('4180.00')), (191, 'Angela Cook', 'robert62@example.org', Decimal('3795.00')), (54, 'Frank Barton', 'alexnorris@example.org', Decimal('3667.00')), (181, 'Michelle Webb', 'nwiley@example.net', Decimal('2881.00')), (105, 'Blake King', 'gonzalezmichael@example.net', Decimal('2810.00')), (21, 'Charles Steele', 'mnichols@example.org', Decimal('2807.00')), (122, 'Joann Lowe', 'johnyoung@example.org', Decimal('2768.00'))]"
+  },
+  {
+    "question": "Provide ten solid analytical insights derived from the 2025 orders data (e.g., revenue distribution, customer segmentation, trends, product performance, seasonal patterns, etc.).",
+    "sql": "SELECT c.tier, AVG(o.total_amount) AS average_order_value\nFROM orders o\nJOIN customers c ON o.customer_id = c.id\nWHERE o.order_date >= DATE '2025-01-01' AND o.order_date < DATE '2026-01-01'\nGROUP BY c.tier\nORDER BY c.tier;",
+    "final_result": "[('Standard', Decimal('503.6283524904214559')), ('VIP', Decimal('509.1596638655462185'))]"
+  },
+  {
+    "question": "Provide ten solid analytical insights derived from the 2025 orders data (e.g., revenue distribution, customer segmentation, trends, product performance, seasonal patterns, etc.).",
+    "sql": "SELECT\n    p.id,\n    p.name,\n    SUM(oi.quantity) AS total_quantity_sold\nFROM\n    order_items oi\nJOIN\n    orders o ON oi.order_id = o.id\nJOIN\n    products p ON oi.product_id = p.id\nWHERE\n    EXTRACT(YEAR FROM o.order_date) = 2025\nGROUP BY\n    p.id,\n    p.name\nORDER BY\n    total_quantity_sold DESC\nLIMIT 5;",
+    "final_result": "[(46, 'Exclusive systematic infrastructure', 83), (37, 'Centralized mobile intranet', 79), (8, 'Diverse asynchronous service-desk', 78), (12, 'Reactive cohesive success', 76), (18, 'Customer-focused 5thgeneration leverage', 74)]"
+  },
+  {
+    "question": "Provide ten solid analytical insights derived from the 2025 orders data (e.g., revenue distribution, customer segmentation, trends, product performance, seasonal patterns, etc.).",
+    "sql": "SELECT \n  CASE \n    WHEN o.order_date BETWEEN DATE '2025-01-01' AND DATE '2025-03-31' THEN 'Q1'\n    WHEN o.order_date BETWEEN DATE '2025-10-01' AND DATE '2025-12-31' THEN 'Q4'\n  END AS quarter,\n  SUM(o.total_amount) - COALESCE(SUM(r.refund_amount), 0) AS net_revenue\nFROM orders o\nLEFT JOIN returns r ON r.order_id = o.id\nWHERE (o.order_date BETWEEN DATE '2025-01-01' AND DATE '2025-03-31')\n   OR (o.order_date BETWEEN DATE '2025-10-01' AND DATE '2025-12-31')\nGROUP BY quarter\nORDER BY quarter;",
+    "final_result": "[('Q4', Decimal('183279.40'))]"
+  },
+  {
+    "question": "Provide ten solid analytical insights derived from the 2025 orders data (e.g., revenue distribution, customer segmentation, trends, product performance, seasonal patterns, etc.).",
+    "sql": "WITH sales AS (\n  SELECT p.category,\n         SUM(oi.quantity * oi.unit_price) AS sales_amount\n  FROM order_items oi\n  JOIN products p ON p.id = oi.product_id\n  JOIN orders o ON o.id = oi.order_id\n  WHERE o.order_date >= DATE '2025-01-01' AND o.order_date < DATE '2026-01-01'\n  GROUP BY p.category\n),\nrefunds AS (\n  SELECT p.category,\n         SUM(r.refund_amount) AS refund_amount\n  FROM returns r\n  JOIN orders o ON o.id = r.order_id\n  JOIN order_items oi ON oi.order_id = o.id\n  JOIN products p ON p.id = oi.product_id\n  WHERE r.return_date >= DATE '2025-01-01' AND r.return_date < DATE '2026-01-01'\n  GROUP BY p.category\n)\nSELECT s.category,\n       COALESCE(r.refund_amount, 0) / NULLIF(s.sales_amount, 0) AS return_rate\nFROM sales s\nLEFT JOIN refunds r ON r.category = s.category;",
+    "final_result": "[('Electronics', Decimal('0.01525066548358473824')), ('Home', Decimal('0.02299029550561030411')), ('Clothing', Decimal('0.02982490447172733086')), ('Books', Decimal('0.01369032668575542941')), ('Beauty', Decimal('0.01716554815038432065'))]"
+  },
+  {
+    "question": "Provide ten solid analytical insights derived from the 2025 orders data (e.g., revenue distribution, customer segmentation, trends, product performance, seasonal patterns, etc.).",
+    "sql": "SELECT DATE_TRUNC('month', order_date) AS month, AVG(total_amount) AS avg_order_value\nFROM orders\nWHERE order_date >= DATE '2025-01-01' AND order_date < DATE '2026-01-01'\nGROUP BY DATE_TRUNC('month', order_date)\nORDER BY month;",
+    "final_result": "[(datetime.datetime(2025, 8, 1, 0, 0, tzinfo=datetime.timezone.utc), Decimal('334.2857142857142857')), (datetime.datetime(2025, 9, 1, 0, 0, tzinfo=datetime.timezone.utc), Decimal('498.3015873015873016')), (datetime.datetime(2025, 10, 1, 0, 0, tzinfo=datetime.timezone.utc), Decimal('516.8943089430894309')), (datetime.datetime(2025, 11, 1, 0, 0, tzinfo=datetime.timezone.utc), Decimal('516.4916666666666667')), (datetime.datetime(2025, 12, 1, 0, 0, tzinfo=datetime.timezone.utc), Decimal('503.6097560975609756'))]"
+  },
+  {
+    "question": "Provide ten solid analytical insights derived from the 2025 orders data (e.g., revenue distribution, customer segmentation, trends, product performance, seasonal patterns, etc.).",
+    "sql": "SELECT c.region,\n       SUM(o.total_amount) - COALESCE(SUM(r.refund_amount), 0) AS revenue\nFROM orders o\nJOIN customers c ON o.customer_id = c.id\nLEFT JOIN returns r ON r.order_id = o.id\nWHERE o.order_date >= DATE '2025-01-01'\n  AND o.order_date < DATE '2026-01-01'\nGROUP BY c.region\nORDER BY revenue DESC;",
+    "final_result": "[('East', Decimal('72745.20')), ('West', Decimal('67253.00')), ('South', Decimal('58382.60')), ('North', Decimal('49295.00'))]"
+  },
+  {
+    "question": "Provide ten solid analytical insights derived from the 2025 orders data (e.g., revenue distribution, customer segmentation, trends, product performance, seasonal patterns, etc.).",
+    "sql": "SELECT date_trunc('month', c.signup_date) AS month,\n       COUNT(*) AS new_signups,\n       COALESCE(SUM(o.total_amount), 0) AS first_order_revenue\nFROM customers c\nLEFT JOIN LATERAL (\n    SELECT o.total_amount\n    FROM orders o\n    WHERE o.customer_id = c.id\n    ORDER BY o.order_date ASC, o.id ASC\n    LIMIT 1\n) o ON true\nWHERE c.signup_date >= DATE '2025-01-01'\n  AND c.signup_date < DATE '2026-01-01'\nGROUP BY month\nORDER BY month;",
+    "final_result": "[(datetime.datetime(2025, 1, 1, 0, 0, tzinfo=datetime.timezone.utc), 11, Decimal('6053.00')), (datetime.datetime(2025, 2, 1, 0, 0, tzinfo=datetime.timezone.utc), 10, Decimal('4580.00')), (datetime.datetime(2025, 3, 1, 0, 0, tzinfo=datetime.timezone.utc), 7, Decimal('2866.00')), (datetime.datetime(2025, 4, 1, 0, 0, tzinfo=datetime.timezone.utc), 5, Decimal('2192.00')), (datetime.datetime(2025, 5, 1, 0, 0, tzinfo=datetime.timezone.utc), 5, Decimal('2236.00')), (datetime.datetime(2025, 6, 1, 0, 0, tzinfo=datetime.timezone.utc), 8, Decimal('4109.00')), (datetime.datetime(2025, 7, 1, 0, 0, tzinfo=datetime.timezone.utc), 7, Decimal('3595.00')), (datetime.datetime(2025, 8, 1, 0, 0, tzinfo=datetime.timezone.utc), 11, Decimal('5186.00'))]"
+  }
+]

@@ -1,0 +1,37 @@
+[
+  {
+    "question": "what are the top 5 customers ? ",
+    "sql": "SELECT c.id, c.name, SUM(o.total_amount) AS total_spent\nFROM customers c\nJOIN orders o ON c.id = o.customer_id\nGROUP BY c.id, c.name\nORDER BY total_spent DESC\nLIMIT 5;",
+    "final_result": "[(3, 'Teresa Mccoy', Decimal('58607.00')), (1, 'Angela Hayes', Decimal('51114.00')), (2, 'Jacob Griffin', Decimal('50196.00')), (23, 'Robert Cain', Decimal('7748.00')), (60, 'Michelle White', Decimal('7074.00'))]"
+  },
+  {
+    "question": "What are the email addresses for the customers with IDs 3, 1, 2, 23, and 60?",
+    "sql": "SELECT email\nFROM customers\nWHERE id IN (3, 1, 2, 23, 60);",
+    "final_result": "[('uthompson@example.org',), ('jamie77@example.net',), ('lisa29@example.com',), ('tiffany62@example.org',), ('nguyenwayne@example.org',)]"
+  },
+  {
+    "question": "What are the email addresses for customers with IDs 3, 1, 2, 23, and 60, respectively?",
+    "sql": "SELECT email\nFROM customers\nWHERE id IN (3, 1, 2, 23, 60)\nORDER BY CASE id\n    WHEN 3 THEN 1\n    WHEN 1 THEN 2\n    WHEN 2 THEN 3\n    WHEN 23 THEN 4\n    WHEN 60 THEN 5\nEND;",
+    "final_result": "[('lisa29@example.com',), ('uthompson@example.org',), ('jamie77@example.net',), ('tiffany62@example.org',), ('nguyenwayne@example.org',)]"
+  },
+  {
+    "question": "What are the places for customers with IDs 3, 1, 2, 23, and 60?",
+    "sql": "SELECT id, region\nFROM customers\nWHERE id IN (3, 1, 2, 23, 60);",
+    "final_result": "[(1, 'West'), (2, 'East'), (3, 'South'), (23, 'East'), (60, 'West')]"
+  },
+  {
+    "question": "tell me the customers having maximum orders top 5 ",
+    "sql": "SELECT c.id, c.name, c.email, c.region, c.tier, COUNT(o.id) AS order_count\nFROM customers c\nJOIN orders o ON o.customer_id = c.id\nGROUP BY c.id, c.name, c.email, c.region, c.tier\nORDER BY order_count DESC\nLIMIT 5;",
+    "final_result": "[(3, 'Teresa Mccoy', 'lisa29@example.com', 'South', 'Standard', 114), (1, 'Angela Hayes', 'uthompson@example.org', 'West', 'VIP', 102), (2, 'Jacob Griffin', 'jamie77@example.net', 'East', 'Standard', 96), (23, 'Robert Cain', 'tiffany62@example.org', 'East', 'VIP', 14), (155, 'Mark Delgado', 'debbie48@example.net', 'North', 'Standard', 13)]"
+  },
+  {
+    "question": "how many tables in the database ? ",
+    "sql": "SELECT COUNT(*) AS table_count\nFROM information_schema.tables\nWHERE table_schema = 'public'\n  AND table_type = 'BASE TABLE';",
+    "final_result": "[(6,)]"
+  },
+  {
+    "question": "hey what is todays weather ? ",
+    "sql": "SELECT NULL WHERE FALSE;",
+    "final_result": "[]"
+  }
+]

@@ -1,0 +1,12 @@
+[
+  {
+    "question": "total number of regions and top 5 products which are highly returnable",
+    "sql": "SELECT COUNT(DISTINCT region) AS distinct_region_count\nFROM customers;",
+    "final_result": "[(4,)]"
+  },
+  {
+    "question": "total number of regions and top 5 products which are highly returnable",
+    "sql": "SELECT p.name,\n       COUNT(*) AS return_count\nFROM returns r\nJOIN orders o ON r.order_id = o.id\nJOIN order_items oi ON oi.order_id = o.id\nJOIN products p ON p.id = oi.product_id\nGROUP BY p.id, p.name\nORDER BY return_count DESC\nLIMIT 5;",
+    "final_result": "[('Up-sized bandwidth-monitored time-frame', 7), ('Fully-configurable needs-based toolset', 7), ('Integrated empowering system engine', 5), ('Mandatory discrete data-warehouse', 5), ('Function-based regional neural-net', 5)]"
+  }
+]

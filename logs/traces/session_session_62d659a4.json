@@ -1,0 +1,17 @@
+[
+  {
+    "question": "top 5 customers by revenue ",
+    "sql": "SELECT c.name,\n       COALESCE(o.total_order_amount, 0) - COALESCE(r.total_refund, 0) AS total_revenue\nFROM customers c\nLEFT JOIN (\n    SELECT customer_id, SUM(total_amount) AS total_order_amount\n    FROM orders\n    GROUP BY customer_id\n) o ON o.customer_id = c.id\nLEFT JOIN (\n    SELECT o.customer_id, SUM(r.refund_amount) AS total_refund\n    FROM returns r\n    JOIN orders o ON o.id = r.order_id\n    GROUP BY o.customer_id\n) r ON r.customer_id = c.id\nORDER BY total_revenue DESC\nLIMIT 5;",
+    "final_result": "[('Teresa Mccoy', Decimal('52429.40')), ('John Doe', Decimal('47460.40')), ('Jacob Griffin', Decimal('43557.60')), ('Robert Cain', Decimal('7748.00')), ('Michelle White', Decimal('7074.00'))]"
+  },
+  {
+    "question": "What are the regions and email addresses for the top 5 customers (Teresa Mccoy, John Doe, Jacob Griffin, Robert Cain, and Michelle White), and what are the top 5 products by revenue?",
+    "sql": "SELECT region, email\nFROM customers\nWHERE name IN ('Teresa Mccoy', 'John Doe', 'Jacob Griffin', 'Robert Cain', 'Michelle White');",
+    "final_result": "[('East', 'jamie77@example.net'), ('South', 'lisa29@example.com'), ('East', 'tiffany62@example.org'), ('West', 'nguyenwayne@example.org'), ('North', 'john.doe@example.com')]"
+  },
+  {
+    "question": "What are the regions and email addresses for the top 5 customers (Teresa Mccoy, John Doe, Jacob Griffin, Robert Cain, and Michelle White), and what are the top 5 products by revenue?",
+    "sql": "SELECT p.id, p.name, SUM(oi.quantity * oi.unit_price) AS revenue\nFROM order_items oi\nJOIN products p ON oi.product_id = p.id\nGROUP BY p.id, p.name\nORDER BY revenue DESC\nLIMIT 5;",
+    "final_result": "[(31, 'Reactive asymmetric array', Decimal('100655.00')), (41, 'Seamless attitude-oriented initiative', Decimal('96222.00')), (20, 'Face-to-face modular monitoring', Decimal('92734.00')), (40, 'Triple-buffered tertiary benchmark', Decimal('90048.00')), (21, 'Business-focused value-added toolset', Decimal('79365.00'))]"
+  }
+]

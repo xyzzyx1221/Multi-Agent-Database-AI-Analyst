@@ -1,0 +1,7 @@
+import sqlite3
+from langgraph.checkpoint.sqlite import SqliteSaver
+
+# In the Orchestrator.__init__
+# Replace workflow.compile() with:
+# memory = SqliteSaver.from_conn_string(":memory:")
+# self.app = workflow.compile(checkpointer=memory)

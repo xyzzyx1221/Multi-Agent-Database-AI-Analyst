@@ -1,0 +1,12 @@
+[
+  {
+    "question": "total number of regions and top 5 products which are higky returnable ",
+    "sql": "SELECT COUNT(DISTINCT region) AS distinct_region_count FROM customers;",
+    "final_result": "[(4,)]"
+  },
+  {
+    "question": "total number of regions and top 5 products which are higky returnable ",
+    "sql": "SELECT\n    p.id,\n    p.name,\n    COUNT(r.id) AS return_count\nFROM returns r\nJOIN orders o ON r.order_id = o.id\nJOIN order_items oi ON oi.order_id = o.id\nJOIN products p ON oi.product_id = p.id\nGROUP BY p.id, p.name\nORDER BY return_count DESC\nLIMIT 5;",
+    "final_result": "[(1, 'Up-sized bandwidth-monitored time-frame', 7), (2, 'Fully-configurable needs-based toolset', 7), (14, 'Integrated empowering system engine', 5), (44, 'Mandatory discrete data-warehouse', 5), (33, 'Function-based regional neural-net', 5)]"
+  }
+]

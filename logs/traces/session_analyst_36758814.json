@@ -1,0 +1,7 @@
+[
+  {
+    "question": "tell the revenue by north region peoples ",
+    "sql": "SELECT COALESCE(SUM(o.total_amount), 0) AS total_revenue\nFROM orders o\nJOIN customers c ON o.customer_id = c.id\nWHERE c.region = 'North';",
+    "final_result": "[(Decimal('137064.00'),)]"
+  }
+]

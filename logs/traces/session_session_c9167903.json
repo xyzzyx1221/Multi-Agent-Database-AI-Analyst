@@ -1,0 +1,32 @@
+[
+  {
+    "question": "top 5 customers and name of customer with id 201 ",
+    "sql": "SELECT c.id AS customer_id, c.name, SUM(o.total_amount) AS total_spent\nFROM customers c\nJOIN orders o ON o.customer_id = c.id\nGROUP BY c.id, c.name\nORDER BY total_spent DESC\nLIMIT 5;",
+    "final_result": "[(3, 'Teresa Mccoy', Decimal('58607.00')), (1, 'John Doe', Decimal('51114.00')), (2, 'Jacob Griffin', Decimal('50196.00')), (23, 'Robert Cain', Decimal('7748.00')), (60, 'Michelle White', Decimal('7074.00'))]"
+  },
+  {
+    "question": "top 5 customers and name of customer with id 201 ",
+    "sql": "SELECT name FROM customers WHERE id = 201;",
+    "final_result": "[('Ranveer Raj',)]"
+  },
+  {
+    "question": "insert one more customer name should be aayush ",
+    "sql": "INSERT INTO customers (id, name, email, region, signup_date, tier)\nSELECT COALESCE(MAX(id), 0) + 1, 'aayush', 'aayush@example.com', 'North', DATE '2026-01-01', 'standard'\nFROM customers;",
+    "final_result": "Action completed successfully."
+  },
+  {
+    "question": "top 5 customers, top 5 products, top 5 marketing chsannels by revenue expenditure ",
+    "sql": "SELECT c.id, c.name, SUM(o.total_amount) AS total_revenue\nFROM orders o\nJOIN customers c ON o.customer_id = c.id\nWHERE o.order_date >= '2025-01-01' AND o.order_date < '2027-01-01'\nGROUP BY c.id, c.name\nORDER BY total_revenue DESC\nLIMIT 5;",
+    "final_result": "[(3, 'Teresa Mccoy', Decimal('58607.00')), (1, 'John Doe', Decimal('51114.00')), (2, 'Jacob Griffin', Decimal('50196.00')), (23, 'Robert Cain', Decimal('7748.00')), (60, 'Michelle White', Decimal('7074.00'))]"
+  },
+  {
+    "question": "top 5 customers, top 5 products, top 5 marketing chsannels by revenue expenditure ",
+    "sql": "SELECT p.id, p.name, SUM(oi.quantity * oi.unit_price) AS total_revenue\nFROM order_items oi\nJOIN orders o ON oi.order_id = o.id\nJOIN products p ON oi.product_id = p.id\nWHERE o.order_date >= DATE '2025-01-01' AND o.order_date < DATE '2027-01-01'\nGROUP BY p.id, p.name\nORDER BY total_revenue DESC\nLIMIT 5;",
+    "final_result": "[(31, 'Reactive asymmetric array', Decimal('100655.00')), (41, 'Seamless attitude-oriented initiative', Decimal('96222.00')), (20, 'Face-to-face modular monitoring', Decimal('92734.00')), (40, 'Triple-buffered tertiary benchmark', Decimal('90048.00')), (21, 'Business-focused value-added toolset', Decimal('79365.00'))]"
+  },
+  {
+    "question": "top 5 customers, top 5 products, top 5 marketing chsannels by revenue expenditure ",
+    "sql": "SELECT channel, SUM(amount_spent) AS total_spent\nFROM marketing_spend\nWHERE EXTRACT(YEAR FROM month) IN (2025, 2026)\nGROUP BY channel\nORDER BY total_spent DESC\nLIMIT 5;",
+    "final_result": "[('social', Decimal('35290.00')), ('search', Decimal('33467.00')), ('affiliate', Decimal('32985.00')), ('email', Decimal('31649.00'))]"
+  }
+]

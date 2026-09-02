@@ -1,0 +1,12 @@
+[
+  {
+    "question": "generate a monthly report for january month covering sales, product details, marketing, orders, returns",
+    "sql": "SELECT SUM(total_amount) AS total_sales_january_2025\nFROM orders\nWHERE order_date >= DATE '2025-01-01'\n  AND order_date < DATE '2025-02-01';",
+    "final_result": "[(None,)]"
+  },
+  {
+    "question": "generate a monthly report for january month covering sales, product details, marketing, orders, returns",
+    "sql": "SELECT\n    p.id AS product_id,\n    p.name AS product_name,\n    SUM(oi.quantity) AS total_quantity,\n    SUM(oi.quantity * oi.unit_price) AS total_sales_amount\nFROM\n    order_items oi\nJOIN\n    orders o ON oi.order_id = o.id\nJOIN\n    products p ON oi.product_id = p.id\nWHERE\n    o.order_date >= DATE '2025-01-01'\n    AND o.order_date < DATE '2025-02-01'\nGROUP BY\n    p.id,\n    p.name;",
+    "final_result": "[]"
+  }
+]

@@ -1,0 +1,7 @@
+[
+  {
+    "question": "Give me a detailed monthly report for January 2025 covering total sales and top products.",
+    "sql": "SELECT SUM(total_amount) AS total_sales_jan_2025\nFROM orders\nWHERE order_date >= DATE '2025-01-01' AND order_date < DATE '2025-02-01';",
+    "final_result": "[(None,)]"
+  }
+]

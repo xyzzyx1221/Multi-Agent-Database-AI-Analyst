@@ -1,0 +1,47 @@
+[
+  {
+    "question": "top 5 customers ",
+    "sql": "SELECT c.name, c.email, SUM(o.total_amount) AS total_spend\nFROM customers c\nJOIN orders o ON o.customer_id = c.id\nGROUP BY c.id, c.name, c.email\nORDER BY total_spend DESC\nLIMIT 5;",
+    "final_result": "[('Teresa Mccoy', 'lisa29@example.com', Decimal('58607.00')), ('John Doe', 'john.doe@example.com', Decimal('51114.00')), ('Jacob Griffin', 'jamie77@example.net', Decimal('50196.00')), ('Robert Cain', 'tiffany62@example.org', Decimal('7748.00')), ('Michelle White', 'nguyenwayne@example.org', Decimal('7074.00'))]"
+  },
+  {
+    "question": "What are the regions for the customers Teresa Mccoy, John Doe, Jacob Griffin, Robert Cain, and Michelle White?",
+    "sql": "SELECT name, region\nFROM customers\nWHERE name IN ('Teresa Mccoy', 'John Doe', 'Jacob Griffin', 'Robert Cain', 'Michelle White');",
+    "final_result": "[('Jacob Griffin', 'East'), ('Teresa Mccoy', 'South'), ('Robert Cain', 'East'), ('Michelle White', 'West'), ('John Doe', 'North')]"
+  },
+  {
+    "question": "For the top 5 customers by total revenue (Teresa Mccoy, John Doe, Jacob Griffin, Robert Cain, and Michelle White), what is each customer's total number of orders and the most recent product they purchased?",
+    "sql": "SELECT c.name, COUNT(o.id) AS total_orders\nFROM customers c\nLEFT JOIN orders o ON o.customer_id = c.id\nWHERE c.name IN ('Teresa Mccoy', 'John Doe', 'Jacob Griffin', 'Robert Cain', 'Michelle White')\nGROUP BY c.name\nORDER BY c.name;",
+    "final_result": "[('Jacob Griffin', 96), ('John Doe', 102), ('Michelle White', 12), ('Robert Cain', 14), ('Teresa Mccoy', 114)]"
+  },
+  {
+    "question": "For the top 5 customers by total revenue (Teresa Mccoy, John Doe, Jacob Griffin, Robert Cain, and Michelle White), what is each customer's total number of orders and the most recent product they purchased?",
+    "sql": "SELECT c.id AS customer_id,\n       c.name AS customer_name,\n       p.id AS product_id,\n       p.name AS product_name,\n       o.order_date\nFROM (\n    SELECT o.customer_id, MAX(o.order_date) AS latest_date\n    FROM orders o\n    WHERE o.customer_id IN (1, 2, 3, 4, 5)\n    GROUP BY o.customer_id\n) latest\nJOIN orders o\n  ON o.customer_id = latest.customer_id\n AND o.order_date = latest.latest_date\nJOIN order_items oi\n  ON oi.order_id = o.id\nJOIN products p\n  ON p.id = oi.product_id\nJOIN customers c\n  ON c.id = o.customer_id;",
+    "final_result": "[(1, 'John Doe', 3, 'Face-to-face clear-thinking process improvement', datetime.date(2026, 8, 29)), (1, 'John Doe', 44, 'Mandatory discrete data-warehouse', datetime.date(2026, 8, 29)), (1, 'John Doe', 32, 'User-friendly multi-tasking synergy', datetime.date(2026, 8, 29)), (1, 'John Doe', 38, 'Re-engineered full-range hardware', datetime.date(2026, 8, 29)), (1, 'John Doe', 43, 'Stand-alone methodical throughput', datetime.date(2026, 8, 29)), (3, 'Teresa Mccoy', 32, 'User-friendly multi-tasking synergy', datetime.date(2026, 8, 27)), (3, 'Teresa Mccoy', 14, 'Integrated empowering system engine', datetime.date(2026, 8, 27)), (2, 'Jacob Griffin', 17, 'Total modular firmware', datetime.date(2026, 8, 31)), (2, 'Jacob Griffin', 5, 'Mandatory incremental initiative', datetime.date(2026, 8, 31)), (2, 'Jacob Griffin', 8, 'Diverse asynchronous service-desk', datetime.date(2026, 8, 31)), (2, 'Jacob Griffin', 21, 'Business-focused value-added toolset', datetime.date(2026, 8, 31)), (4, 'Joshua Matthews', 22, 'Up-sized hybrid middleware', datetime.date(2026, 3, 20)), (4, 'Joshua Matthews', 40, 'Triple-buffered tertiary benchmark', datetime.date(2026, 3, 20)), (4, 'Joshua Matthews', 15, 'Universal multi-tasking database', datetime.date(2026, 3, 20)), (5, 'Autumn Reed', 33, 'Function-based regional neural-net', datetime.date(2026, 4, 26))]"
+  },
+  {
+    "question": "Give me the total revenue for 2025, the name of the customer who placed the largest single order, the top-selling product by quantity, and the total number of customers in the South region\"",
+    "sql": "SELECT SUM(total_amount) AS total_revenue_2025\nFROM orders\nWHERE order_date >= DATE '2025-01-01'\n  AND order_date < DATE '2026-01-01';",
+    "final_result": "[(Decimal('252627.00'),)]"
+  },
+  {
+    "question": "Give me the total revenue for 2025, the name of the customer who placed the largest single order, the top-selling product by quantity, and the total number of customers in the South region\"",
+    "sql": "SELECT c.name\nFROM customers c\nJOIN orders o ON o.customer_id = c.id\nORDER BY o.total_amount DESC\nLIMIT 1;",
+    "final_result": "[('John Doe',)]"
+  },
+  {
+    "question": "Give me the total revenue for 2025, the name of the customer who placed the largest single order, the top-selling product by quantity, and the total number of customers in the South region\"",
+    "sql": "SELECT p.id, p.name, SUM(oi.quantity) AS total_quantity\nFROM order_items oi\nJOIN products p ON oi.product_id = p.id\nGROUP BY p.id, p.name\nORDER BY total_quantity DESC\nLIMIT 1;",
+    "final_result": "[(7, 'De-engineered object-oriented instruction set', 231)]"
+  },
+  {
+    "question": "Give me the total revenue for 2025, the name of the customer who placed the largest single order, the top-selling product by quantity, and the total number of customers in the South region\"",
+    "sql": "SELECT COUNT(*) AS total_customers FROM customers WHERE region = 'South';",
+    "final_result": "[(43,)]"
+  },
+  {
+    "question": "search for any customer name abhijeet ",
+    "sql": "SELECT * FROM customers WHERE name ILIKE '%abhijeet%';",
+    "final_result": "[]"
+  }
+]

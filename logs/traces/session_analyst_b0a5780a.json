@@ -1,0 +1,52 @@
+[
+  {
+    "question": "tell the top 5 customers and then tell the top 5 regions by revenue and then tell the top 5 products that are most returnabe",
+    "sql": "SELECT c.id, c.name, SUM(o.total_amount) AS total_revenue\nFROM customers c\nJOIN orders o ON o.customer_id = c.id\nWHERE EXTRACT(YEAR FROM o.order_date) = 2025\nGROUP BY c.id, c.name\nORDER BY total_revenue DESC\nLIMIT 5;",
+    "final_result": "[(1, 'Angela Hayes', Decimal('21338.00')), (3, 'Teresa Mccoy', Decimal('19040.00')), (2, 'Jacob Griffin', Decimal('18865.00')), (23, 'Robert Cain', Decimal('4180.00')), (191, 'Angela Cook', Decimal('3795.00'))]"
+  },
+  {
+    "question": "tell the top 5 customers and then tell the top 5 regions by revenue and then tell the top 5 products that are most returnabe",
+    "sql": "SELECT c.region, SUM(o.total_amount) AS total_revenue\nFROM orders o\nJOIN customers c ON o.customer_id = c.id\nWHERE o.order_date >= DATE '2025-01-01' AND o.order_date < DATE '2026-01-01'\nGROUP BY c.region\nORDER BY total_revenue DESC\nLIMIT 5;",
+    "final_result": "[('East', Decimal('74378.00')), ('West', Decimal('68797.00')), ('South', Decimal('60157.00')), ('North', Decimal('49295.00'))]"
+  },
+  {
+    "question": "tell the top 5 customers and then tell the top 5 regions by revenue and then tell the top 5 products that are most returnabe",
+    "sql": "SELECT\n    p.id AS product_id,\n    p.name AS product_name,\n    COUNT(r.id) AS return_count\nFROM returns r\nJOIN orders o ON r.order_id = o.id\nJOIN order_items oi ON oi.order_id = o.id\nJOIN products p ON oi.product_id = p.id\nWHERE r.return_date >= DATE '2025-01-01' \n  AND r.return_date < DATE '2026-01-01'\nGROUP BY p.id, p.name\nORDER BY return_count DESC\nLIMIT 5;",
+    "final_result": "[(1, 'Up-sized bandwidth-monitored time-frame', 5), (2, 'Fully-configurable needs-based toolset', 4), (33, 'Function-based regional neural-net', 3), (16, 'Integrated 5thgeneration contingency', 3), (36, 'Quality-focused interactive strategy', 3)]"
+  },
+  {
+    "question": "generate a monthly report for january month covering sales, product details, marketing, orders, return",
+    "sql": "SELECT COALESCE(SUM(total_amount), 0) AS total_sales_january_2025\nFROM orders\nWHERE order_date >= DATE '2025-01-01'\n  AND order_date < DATE '2025-02-01';",
+    "final_result": "[(Decimal('0'),)]"
+  },
+  {
+    "question": "generate a monthly report for january month covering sales, product details, marketing, orders, return",
+    "sql": "SELECT id, customer_id, order_date, status, total_amount\nFROM orders\nWHERE order_date >= DATE '2025-01-01' AND order_date < DATE '2025-02-01';",
+    "final_result": "[]"
+  },
+  {
+    "question": "generate a monthly report for january month covering sales, product details, marketing, orders, return",
+    "sql": "SELECT p.id AS product_id,\n       p.name,\n       SUM(oi.quantity) AS total_quantity_sold,\n       SUM(oi.quantity * oi.unit_price) AS revenue\nFROM order_items oi\nJOIN orders o ON oi.order_id = o.id\nJOIN products p ON oi.product_id = p.id\nWHERE o.order_date >= DATE '2025-01-01' \n  AND o.order_date < DATE '2025-02-01'\nGROUP BY p.id, p.name\nORDER BY p.id;",
+    "final_result": "[]"
+  },
+  {
+    "question": "generate a monthly report for january month covering sales, product details, marketing, orders, return",
+    "sql": "SELECT id, name, category, price, cost FROM products;",
+    "final_result": "[(1, 'Up-sized bandwidth-monitored time-frame', 'Clothing', Decimal('134.00'), Decimal('80.40')), (2, 'Fully-configurable needs-based toolset', 'Beauty', Decimal('268.00'), Decimal('160.80')), (3, 'Face-to-face clear-thinking process improvement', 'Books', Decimal('116.00'), Decimal('69.60')), (4, 'Self-enabling uniform forecast', 'Clothing', Decimal('38.00'), Decimal('22.80')), (5, 'Mandatory incremental initiative', 'Beauty', Decimal('179.00'), Decimal('107.40')), (6, 'Horizontal client-driven strategy', 'Beauty', Decimal('384.00'), Decimal('230.40')), (7, 'De-engineered object-oriented instruction set', 'Books', Decimal('314.00'), Decimal('188.40')), (8, 'Diverse asynchronous service-desk', 'Electronics', Decimal('122.00'), Decimal('73.20')), (9, 'Programmable neutral customer loyalty', 'Home', Decimal('60.00'), Decimal('36.00')), (10, 'Multi-tiered systemic budgetary management', 'Books', Decimal('130.00'), Decimal('78.00')), (11, 'Multi-lateral attitude-oriented toolset', 'Clothing', Decimal('219.00'), Decimal('131.40')), (12, 'Reactive cohesive success', 'Electronics', Decimal('328.00'), Decimal('196.80')), (13, 'Horizontal actuating array', 'Home', Decimal('414.00'), Decimal('248.40')), (14, 'Integrated empowering system engine', 'Clothing', Decimal('53.00'), Decimal('31.80')), (15, 'Universal multi-tasking database', 'Home', Decimal('283.00'), Decimal('169.80')), (16, 'Integrated 5thgeneration contingency', 'Home', Decimal('354.00'), Decimal('212.40')), (17, 'Total modular firmware', 'Home', Decimal('140.00'), Decimal('84.00')), (18, 'Customer-focused 5thgeneration leverage', 'Clothing', Decimal('89.00'), Decimal('53.40')), (19, 'Profit-focused non-volatile instruction set', 'Beauty', Decimal('234.00'), Decimal('140.40')), (20, 'Face-to-face modular monitoring', 'Electronics', Decimal('466.00'), Decimal('279.60')), (21, 'Business-focused value-added toolset', 'Clothing', Decimal('481.00'), Decimal('288.60')), (22, 'Up-sized hybrid middleware', 'Clothing', Decimal('417.00'), Decimal('250.20')), (23, 'Open-architected optimal hardware', 'Clothing', Decimal('277.00'), Decimal('166.20')), (24, 'Multi-lateral multi-tasking paradigm', 'Books', Decimal('206.00'), Decimal('123.60')), (25, 'Versatile analyzing framework', 'Books', Decimal('32.00'), Decimal('19.20')), (26, 'Right-sized impactful benchmark', 'Clothing', Decimal('276.00'), Decimal('165.60')), (27, 'Quality-focused mission-critical support', 'Home', Decimal('396.00'), Decimal('237.60')), (28, 'Streamlined 4thgeneration protocol', 'Home', Decimal('77.00'), Decimal('46.20')), (29, 'Function-based heuristic productivity', 'Home', Decimal('129.00'), Decimal('77.40')), (30, 'De-engineered dedicated synergy', 'Electronics', Decimal('352.00'), Decimal('211.20')), (31, 'Reactive asymmetric array', 'Books', Decimal('491.00'), Decimal('294.60')), (32, 'User-friendly multi-tasking synergy', 'Books', Decimal('428.00'), Decimal('256.80')), (33, 'Function-based regional neural-net', 'Clothing', Decimal('66.00'), Decimal('39.60')), (34, 'Self-enabling secondary functionalities', 'Electronics', Decimal('104.00'), Decimal('62.40')), (35, 'Streamlined cohesive task-force', 'Beauty', Decimal('238.00'), Decimal('142.80')), (36, 'Quality-focused interactive strategy', 'Clothing', Decimal('271.00'), Decimal('162.60')), (37, 'Centralized mobile intranet', 'Beauty', Decimal('35.00'), Decimal('21.00')), (38, 'Re-engineered full-range hardware', 'Clothing', Decimal('84.00'), Decimal('50.40')), (39, 'Right-sized full-range throughput', 'Home', Decimal('331.00'), Decimal('198.60')), (40, 'Triple-buffered tertiary benchmark', 'Clothing', Decimal('469.00'), Decimal('281.40')), (41, 'Seamless attitude-oriented initiative', 'Clothing', Decimal('474.00'), Decimal('284.40')), (42, 'Function-based bi-directional product', 'Electronics', Decimal('113.00'), Decimal('67.80')), (43, 'Stand-alone methodical throughput', 'Electronics', Decimal('22.00'), Decimal('13.20')), (44, 'Mandatory discrete data-warehouse', 'Electronics', Decimal('76.00'), Decimal('45.60')), (45, 'Up-sized secondary model', 'Books', Decimal('87.00'), Decimal('52.20')), (46, 'Exclusive systematic infrastructure', 'Home', Decimal('119.00'), Decimal('71.40')), (47, 'Triple-buffered demand-driven pricing structure', 'Electronics', Decimal('414.00'), Decimal('248.40')), (48, 'Organized object-oriented matrices', 'Books', Decimal('256.00'), Decimal('153.60')), (49, 'Cross-platform 24hour functionalities', 'Beauty', Decimal('185.00'), Decimal('111.00')), (50, 'Adaptive intangible model', 'Electronics', Decimal('313.00'), Decimal('187.80'))]"
+  },
+  {
+    "question": "generate a monthly report for january month covering sales, product details, marketing, orders, return",
+    "sql": "SELECT COALESCE(SUM(amount_spent), 0) AS total_january_2025_spend\nFROM marketing_spend\nWHERE month >= DATE '2025-01-01' AND month < DATE '2025-02-01';",
+    "final_result": "[(Decimal('22170.00'),)]"
+  },
+  {
+    "question": "generate a monthly report for january month covering sales, product details, marketing, orders, return",
+    "sql": "SELECT region, channel, SUM(amount_spent) AS total_spent\nFROM marketing_spend\nWHERE month >= DATE '2025-01-01' AND month < DATE '2025-02-01'\nGROUP BY region, channel\nORDER BY region, channel;",
+    "final_result": "[('East', 'affiliate', Decimal('1847.00')), ('East', 'email', Decimal('1685.00')), ('East', 'search', Decimal('1287.00')), ('East', 'social', Decimal('1513.00')), ('North', 'affiliate', Decimal('1447.00')), ('North', 'email', Decimal('808.00')), ('North', 'search', Decimal('1104.00')), ('North', 'social', Decimal('1959.00')), ('South', 'affiliate', Decimal('1133.00')), ('South', 'email', Decimal('1331.00')), ('South', 'search', Decimal('1341.00')), ('South', 'social', Decimal('1169.00')), ('West', 'affiliate', Decimal('1252.00')), ('West', 'email', Decimal('1314.00')), ('West', 'search', Decimal('1498.00')), ('West', 'social', Decimal('1482.00'))]"
+  },
+  {
+    "question": "generate a monthly report for january month covering sales, product details, marketing, orders, return",
+    "sql": "SELECT COUNT(*) AS num_returns,\n       COALESCE(SUM(refund_amount), 0) AS total_refund_amount\nFROM returns\nWHERE return_date >= DATE '2025-01-01'\n  AND return_date < DATE '2025-02-01';",
+    "final_result": "[(0, Decimal('0'))]"
+  }
+]

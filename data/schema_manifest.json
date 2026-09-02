@@ -1,0 +1,88 @@
+{
+  "marketing_spend": {
+    "columns": {
+      "id": "integer",
+      "region": "character varying",
+      "month": "date",
+      "channel": "character varying",
+      "amount_spent": "numeric"
+    },
+    "relationships": [
+      {
+        "column": "region",
+        "references": "customers.region",
+        "type": "implicit"
+      }
+    ]
+  },
+  "customers": {
+    "columns": {
+      "id": "integer",
+      "name": "character varying",
+      "email": "character varying",
+      "region": "character varying",
+      "signup_date": "date",
+      "tier": "character varying"
+    },
+    "relationships": []
+  },
+  "orders": {
+    "columns": {
+      "id": "integer",
+      "customer_id": "integer",
+      "order_date": "date",
+      "status": "character varying",
+      "total_amount": "numeric"
+    },
+    "relationships": [
+      {
+        "column": "customer_id",
+        "references": "customers.id"
+      }
+    ]
+  },
+  "order_items": {
+    "columns": {
+      "id": "integer",
+      "order_id": "integer",
+      "product_id": "integer",
+      "quantity": "integer",
+      "unit_price": "numeric"
+    },
+    "relationships": [
+      {
+        "column": "order_id",
+        "references": "orders.id"
+      },
+      {
+        "column": "product_id",
+        "references": "products.id"
+      }
+    ]
+  },
+  "products": {
+    "columns": {
+      "id": "integer",
+      "name": "character varying",
+      "category": "character varying",
+      "price": "numeric",
+      "cost": "numeric"
+    },
+    "relationships": []
+  },
+  "returns": {
+    "columns": {
+      "id": "integer",
+      "order_id": "integer",
+      "return_date": "date",
+      "reason": "character varying",
+      "refund_amount": "numeric"
+    },
+    "relationships": [
+      {
+        "column": "order_id",
+        "references": "orders.id"
+      }
+    ]
+  }
+}

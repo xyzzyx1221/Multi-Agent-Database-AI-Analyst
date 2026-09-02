@@ -1,0 +1,32 @@
+[
+  {
+    "question": "top5 customers by revenue ",
+    "sql": "WITH order_totals AS (\n  SELECT customer_id, SUM(total_amount) AS total_orders\n  FROM orders\n  GROUP BY customer_id\n), refund_totals AS (\n  SELECT o.customer_id, SUM(r.refund_amount) AS total_refunds\n  FROM returns r\n  JOIN orders o ON o.id = r.order_id\n  GROUP BY o.customer_id\n)\nSELECT c.id, c.name,\n       COALESCE(ot.total_orders, 0) - COALESCE(rt.total_refunds, 0) AS total_revenue\nFROM customers c\nLEFT JOIN order_totals ot ON ot.customer_id = c.id\nLEFT JOIN refund_totals rt ON rt.customer_id = c.id\nORDER BY total_revenue DESC\nLIMIT 5;",
+    "final_result": "[(3, 'Teresa Mccoy', Decimal('52429.40')), (1, 'John Doe', Decimal('47460.40')), (2, 'Jacob Griffin', Decimal('43557.60')), (23, 'Robert Cain', Decimal('7748.00')), (60, 'Michelle White', Decimal('7074.00'))]"
+  },
+  {
+    "question": "top 5 customers ",
+    "sql": "SELECT c.name, c.email, SUM(o.total_amount) AS total_spend\nFROM customers c\nJOIN orders o ON o.customer_id = c.id\nGROUP BY c.id, c.name, c.email\nORDER BY total_spend DESC\nLIMIT 5;",
+    "final_result": "[('Teresa Mccoy', 'lisa29@example.com', Decimal('58607.00')), ('John Doe', 'john.doe@example.com', Decimal('51114.00')), ('Jacob Griffin', 'jamie77@example.net', Decimal('50196.00')), ('Robert Cain', 'tiffany62@example.org', Decimal('7748.00')), ('Michelle White', 'nguyenwayne@example.org', Decimal('7074.00'))]"
+  },
+  {
+    "question": "top 5 customers by reveune ",
+    "sql": "SELECT c.id, c.name, SUM(o.total_amount) AS revenue\nFROM customers c\nJOIN orders o ON o.customer_id = c.id\nGROUP BY c.id, c.name\nORDER BY revenue DESC\nLIMIT 5;",
+    "final_result": "[(3, 'Teresa Mccoy', Decimal('58607.00')), (1, 'John Doe', Decimal('51114.00')), (2, 'Jacob Griffin', Decimal('50196.00')), (23, 'Robert Cain', Decimal('7748.00')), (60, 'Michelle White', Decimal('7074.00'))]"
+  },
+  {
+    "question": "what is the name of the customer with id 202",
+    "sql": "SELECT name FROM customers WHERE id = 202;",
+    "final_result": "[('aditya',)]"
+  },
+  {
+    "question": "name of customer with id 202 ",
+    "sql": "SELECT name FROM customers WHERE id = 202;",
+    "final_result": "[('aditya',)]"
+  },
+  {
+    "question": "what is the name of the customer with id 201 ",
+    "sql": "SELECT name FROM customers WHERE id = 201;",
+    "final_result": "[('Ranveer Raj',)]"
+  }
+]
